@@ -7,26 +7,31 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ReqisterRequest;
 use App\Repository\User\IUserRepository;
 use App\Traits\ResponseAPI;
-use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
     use ResponseAPI;
     public function __construct(
         private IUserRepository $userRepo
-    )
-    {
+    ) {
     }
 
     public function register(ReqisterRequest $request)
     {
         try {
             $user = $this->userRepo->createUser(AuthDto::fromRequestRegister($request));
-            $user->token = $user->createToken('auth_token')->accessToken;
+            $token = $user->createToken('auth_token')->accessToken;
         } catch (\Exception $e) {
             return $this->error($e->getMessage());
         }
-        return $this->success('User created', $user);
+
+        return $this->success(
+            'User created',
+            [
+                "user" => $user,
+                "token" => $token
+            ]
+        );
     }
 
 }
