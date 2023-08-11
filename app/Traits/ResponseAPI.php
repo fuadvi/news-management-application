@@ -38,7 +38,7 @@ trait ResponseAPI
      * Send any success response
      *
      * @param   string          $message
-     * @param   array|object    $data
+     * @param   array|object|null    $data
      * @param   integer         $statusCode
      */
     public function success($message, $data, $statusCode = 200)
