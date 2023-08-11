@@ -24,6 +24,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         Passport::tokensCan([
             'admin' => 'Access administrative features',
+            'user' => 'Access user features'
         ]);
     }
 }
