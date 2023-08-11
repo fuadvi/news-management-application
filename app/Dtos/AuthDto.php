@@ -9,8 +9,7 @@ class AuthDto
         public ?string $email = null,
         public ?string $password = null,
         public ?int $role_id = null,
-    )
-    {
+    ) {
     }
 
     public static function fromRequestRegister($request): self

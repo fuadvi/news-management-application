@@ -2,7 +2,6 @@
 
 namespace App\Repository\User;
 
-
 use App\Dtos\AuthDto;
 use App\Models\User;
 
