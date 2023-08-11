@@ -41,9 +41,9 @@ class AuthController extends Controller
         try {
             $user = $this->userRepo->getUserByEmail($request->email);
 
-            if (!$user)  return $this->error('User not found');
+            if (!$user)  throw new \Exception('User not found');
 
-            if(!Hash::check($request->password, $user->password)) return $this->error('User not found');
+            if(!Hash::check($request->password, $user->password)) throw new \Exception('User not found');
 
             match ($user->role_id) {
                 1 => $token = $user->createToken('AdminToken', ['admin'])->accessToken,
