@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,4 +25,6 @@ Route::controller(AuthController::class)
     Route::post('/login', 'login');
     Route::post('/register', 'register');
 });
+
+Route::apiResource('categories', CategoryController::class)->middleware('auth:api');
 
