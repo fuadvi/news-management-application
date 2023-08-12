@@ -2,6 +2,7 @@
 
 namespace App\Repository\News;
 
+use App\Dtos\NewsCommentDto;
 use App\Dtos\NewsDto;
 use App\Http\Resources\NewsResource;
 use App\Models\News;
@@ -61,4 +62,15 @@ class NewsRepository implements INewsRepository
     {
         $this->news->where('slug', $slug)->delete();
     }
+
+    public function createComment(NewsCommentDto $newsDto)
+    {
+       $news = $this->news->where('slug', $newsDto->slug)->firstOrFail();
+       $news->comments()->create([
+              'content' => $newsDto->content,
+              'user_name' => $newsDto->userName,
+       ]);
+    }
+
+
 }
