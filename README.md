@@ -1,66 +1,90 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# News Management Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This repository contains a Laravel-based news management application that implements various features and best practices for a clean and functional API project.
 
-## About Laravel
+## Prerequisites
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- PHP (>= 8.1)
+- Composer
+- MySQL Database
+- Redis (for queuing)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. Clone the repository:
 
-## Learning Laravel
+   ```bash
+   git clone https://github.com/yourusername/news-management.git
+   ```
+2. Install dependencies:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+   ```bash
+    composer install
+    ```
+3. Create a copy of the `.env.example` file and rename it to `.env`:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+   ```bash
+   cp .env.example .env
+   ```
+4. Generate an application key:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+   ```bash
+    php artisan key:generate
+    ```
+5. Create a database and update the `.env` file with the database credentials:
+6. install passport:
 
-## Laravel Sponsors
+   ```bash
+    php artisan passport:install
+    ```
+7. Run the database migrations and seeders:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+   ```bash
+    php artisan migrate --seed
+    ```
+8. Start the local development server:
+    ```bash
+    php artisan serve
+    ```
+9. Run the queue worker:
 
-### Premium Partners
+   ```bash
+    php artisan queue:work
+    ```
+10. Visit `http://localhost:8000` in your postmen to view the application.
+11. Run the tests:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+   ```bash
+    php artisan test
+    ```
+## API Documentation
+To explore and interact with the APIs, you can use the provided Postman collection. Postman Collection Link: https://elements.getpostman.com/redirect?entityId=23687502-e984a8c9-1108-466c-a30a-ecdc39c532cf&entityType=collection
 
-## Contributing
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/23687502-e984a8c9-1108-466c-a30a-ecdc39c532cf?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D23687502-e984a8c9-1108-466c-a30a-ecdc39c532cf%26entityType%3Dcollection%26workspaceId%3D6c2ea7c7-601e-4128-b715-7b7bdd9390c0)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Usage
+- Admin users should log in to access the create, update, and delete news endpoints
+- Non-admin users can post comments to news articles.
+- The oauth/token endpoint should be used to obtain access tokens using Laravel Passport.
+- login using admin :
+   ```bash
+    email: admin@admin.com
+    password: password
+    ```
 
-## Code of Conduct
+## Folder Structure
+- `app/Http/Controllers/Api` - Contains the API controllers
+- `app/Http/Requests` - Contains the API form requests
+- `app/Models` - Contains the Eloquent models
+- `app/Repositories` - Contains the repositories for the models
+- `app/Http/Middleware` - Contains the middleware
+- `app/Http/Resources` - Contains the API resources
+- `app/Http/Controllers/Api/Auth` - Contains the authentication controllers
+- `app/Http/Controllers/Api/News` - Contains the news controllers
+- `app/Http/Controllers/Api/Comment` - Contains the comment controllers
+- `database/seeds` - Contains seeders for populating the database with sample data.
+- `routes/api.php` - Defines API routes.
+- `config` - Contains configuration files, including Laravel Passport settings.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
