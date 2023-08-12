@@ -2,6 +2,7 @@
 
 namespace App\Repository\News;
 
+use App\Dtos\NewsCommentDto;
 use App\Dtos\NewsDto;
 use App\Http\Resources\NewsResource;
 use App\Models\News;
@@ -13,5 +14,6 @@ interface INewsRepository
     public function createNews(NewsDto $newsDto): void;
     public function updateNews(string $slug, NewsDto $newsDto): void;
     public function deleteNews(string $slug): void;
+    public function createComment(NewsCommentDto $newsDto);
 
 }
