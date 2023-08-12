@@ -55,7 +55,7 @@ class AuthController extends Controller
             };
 
         } catch (\Exception $e) {
-            return $this->error($e->getMessage());
+            return $this->error($e->getMessage(), 400);
         }
 
         return $this->success(
