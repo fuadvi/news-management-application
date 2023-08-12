@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\User;
-use App\Repository\User\IUserRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 uses(Tests\TestCase::class)->in('Feature');
