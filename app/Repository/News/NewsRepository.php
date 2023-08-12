@@ -46,16 +46,18 @@ class NewsRepository implements INewsRepository
         return new NewsResource($news);
     }
 
-    public function createNews(NewsDto $newsDto): void
+    public function createNews(NewsDto $newsDto): News
     {
-        $this->news->create((array)$newsDto);
+        return $this->news->create((array)$newsDto);
     }
 
-    public function updateNews(string $slug, NewsDto $newsDto): void
+    public function updateNews(string $slug, NewsDto $newsDto): News
     {
         $news = $this->news->where('slug', $slug)->first();
 
         if ($news)  $news->update(array_filter((array)$newsDto));
+
+        return $news;
     }
 
     public function deleteNews(string $slug): void

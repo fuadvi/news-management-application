@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Dtos\NewsDto;
+use App\Events\NewsCreated;
+use App\Events\NewsDeleted;
+use App\Events\NewsUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsRequest;
 use App\Http\Requests\NewsUpdateRequest;
@@ -10,6 +13,7 @@ use App\Repository\News\INewsRepository;
 use App\Traits\ImageTrait;
 use App\Traits\ResponseAPI;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
@@ -37,16 +41,24 @@ class NewsController extends Controller
     public function store(NewsRequest $request)
     {
         try {
+
+            DB::beginTransaction();
+
             if ($request->hasFile('images')) {
                 $request->images = $this->uploadImage($request->file('images'), 'news');
             }
 
-            $this->newsRepo->createNews(
+            $news = $this->newsRepo->createNews(
                 NewsDto::fromRequest($request)
             );
+
+            NewsCreated::dispatch($news);
+            DB::commit();
+
             return $this->success("News Created", null, 201);
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), $e->getCode());
+            DB::rollBack();
+            return $this->error($e->getMessage());
         }
     }
 
@@ -64,6 +76,8 @@ class NewsController extends Controller
     public function update(NewsUpdateRequest $request, string $slug)
     {
         try {
+            DB::beginTransaction();
+
             $news = $this->newsRepo->getNews($slug);
 
             if ($request->hasFile('images') && $news->images) {
@@ -71,9 +85,14 @@ class NewsController extends Controller
                 $request->images = $this->uploadImage($request->file('images'), 'news');
             }
 
-            $this->newsRepo->updateNews($news->slug, NewsDto::fromRequest($request));
+            $news = $this->newsRepo->updateNews($news->slug, NewsDto::fromRequest($request));
+
+            NewsUpdated::dispatch($news);
+            DB::commit();
+
             return $this->success("News Updated", null);
         } catch (\Exception $e) {
+            DB::rollBack();
             return $this->error($e->getMessage());
         }
     }
@@ -84,6 +103,8 @@ class NewsController extends Controller
     public function destroy(string $slug)
     {
         $news = $this->newsRepo->getNews($slug);
+
+        NewsDeleted::dispatch($news);
 
         if ($news->images) $this->deleteImage($news->images);
 
