@@ -14,7 +14,7 @@ trait ImageTrait
 
     public function deleteImage(string $image): void
     {
-        $image = substr($image,22);
+        $image = substr($image, 22);
         if (file_exists($image)) {
             unlink($image);
         }

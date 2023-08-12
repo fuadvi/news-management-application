@@ -21,8 +21,7 @@ class NewsController extends Controller
     use ImageTrait;
     public function __construct(
         protected INewsRepository $newsRepo
-    )
-    {
+    ) {
         $this->middleware('is.admin')->except(['index', 'show']);
     }
 
@@ -106,7 +105,9 @@ class NewsController extends Controller
 
         NewsDeleted::dispatch($news);
 
-        if ($news->images) $this->deleteImage($news->images);
+        if ($news->images) {
+            $this->deleteImage($news->images);
+        }
 
         $this->newsRepo->deleteNews($news->slug);
         return $this->success("News Deleted", null, 204);

@@ -6,7 +6,6 @@ use App\Dtos\NewsCommentDto;
 use App\Dtos\NewsDto;
 use App\Http\Resources\NewsResource;
 use App\Models\News;
-use App\Repository\News\INewsRepository;
 
 class NewsRepository implements INewsRepository
 {
@@ -57,7 +56,9 @@ class NewsRepository implements INewsRepository
     {
         $news = $this->news->where('slug', $slug)->first();
 
-        if ($news)  $news->update(array_filter((array)$newsDto));
+        if ($news) {
+            $news->update(array_filter((array)$newsDto));
+        }
 
         return $news;
     }
@@ -69,11 +70,11 @@ class NewsRepository implements INewsRepository
 
     public function createComment(NewsCommentDto $newsDto)
     {
-       $news = $this->news->where('slug', $newsDto->slug)->firstOrFail();
-       $news->comments()->create([
-              'content' => $newsDto->content,
-              'user_name' => $newsDto->userName,
-       ]);
+        $news = $this->news->where('slug', $newsDto->slug)->firstOrFail();
+        $news->comments()->create([
+               'content' => $newsDto->content,
+               'user_name' => $newsDto->userName,
+        ]);
     }
 
 

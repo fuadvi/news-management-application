@@ -4,8 +4,6 @@ namespace App\Listeners;
 
 use App\Events\NewsCreated;
 use App\Models\Logging;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class LogNewsCreated
 {

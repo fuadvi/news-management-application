@@ -3,14 +3,12 @@
 namespace App\Repository\Category;
 
 use App\Models\Category;
-use App\Repository\Category\ICategoryRepository;
 
 class CategoryRepository implements ICategoryRepository
 {
     public function __construct(
         private Category $category
-    )
-    {
+    ) {
     }
 
 

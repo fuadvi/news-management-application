@@ -8,8 +8,7 @@ class NewsCommentDto
         public readonly string $content,
         public readonly string $userName,
         public readonly string $slug,
-    )
-    {
+    ) {
     }
 
     public static function fromRequest(string $content, string $slug, string $userName): self

@@ -10,8 +10,7 @@ class NewsDto
         public readonly ?string $images,
         public readonly ?string $category_id,
         public readonly ?string $user_id,
-    )
-    {
+    ) {
     }
 
     public static function fromRequest($data): self

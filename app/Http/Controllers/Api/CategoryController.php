@@ -6,15 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Repository\Category\ICategoryRepository;
 use App\Traits\ResponseAPI;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     use ResponseAPI;
     public function __construct(
         private ICategoryRepository $categoryRepo
-    )
-    {
+    ) {
     }
 
 
@@ -57,7 +55,7 @@ class CategoryController extends Controller
         $this->categoryRepo->updateCategory($id, $request->name);
         return $this->success(
             'Category updated',
-           null
+            null
         );
     }
 
