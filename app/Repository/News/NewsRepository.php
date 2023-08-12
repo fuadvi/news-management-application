@@ -20,8 +20,10 @@ class NewsRepository implements INewsRepository
         $news=  $this->news
             ->with('category:id,name', 'user:id,name')
             ->when($search, function ($query, $search) {
-            return $query->where('title', 'like', "%{$search}%");
-        })->paginate(10);
+                return $query->where('title', 'like', "%{$search}%");
+            })
+            ->orderByDesc('id')
+            ->paginate(10);
 
         return (object)[
             'news' => NewsResource::collection($news),
