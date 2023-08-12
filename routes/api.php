@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\NewsCommentController;
+use App\Http\Controllers\Api\NewsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,4 +29,5 @@ Route::controller(AuthController::class)
 });
 
 Route::apiResource('categories', CategoryController::class)->middleware('auth:api');
-
+Route::apiResource('news', NewsController::class)->middleware('auth:api');
+Route::post('/news/{slug}/comment', NewsCommentController::class)->middleware('auth:api');
