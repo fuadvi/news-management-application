@@ -53,9 +53,8 @@ This repository contains a Laravel-based news management application that implem
     ```
 10. Visit `http://localhost:8000` in your postmen to view the application.
 11. Run the tests:
-
-   ```bash
-    php artisan test
+    ```bash
+      php artisan test
     ```
 ## API Documentation
 To explore and interact with the APIs, you can use the provided Postman collection. Postman Collection Link: https://elements.getpostman.com/redirect?entityId=23687502-e984a8c9-1108-466c-a30a-ecdc39c532cf&entityType=collection
