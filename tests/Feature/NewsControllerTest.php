@@ -20,7 +20,7 @@ beforeEach(function () {
 
 test('it can get list news', function () {
     $user = User::factory()->create();
-    $token =  $user->createToken('UserToken', ['user'])->accessToken;
+    $token = $user->createToken('UserToken', ['user'])->accessToken;
 
     $this->withHeaders([
         'Authorization' => 'Bearer ' . $token,
@@ -37,9 +37,9 @@ test('it can get list news', function () {
 });
 
 
-test('it can create news', function (){
+test('it can create news', function () {
     $user = User::factory()->create();
-    $token =  $user->createToken('UserToken', ['admin'])->accessToken;
+    $token = $user->createToken('UserToken', ['admin'])->accessToken;
 
     $images = UploadedFile::fake()->image('test_image.jpg');
 
@@ -64,13 +64,13 @@ test('it can create news', function (){
 
 });
 
-test('it can create news return error when user role not admin', function (){
+test('it can create news return error when user role not admin', function () {
     $user = User::factory()->create();
-    $token =  $user->createToken('UserToken', ['user'])->accessToken;
+    $token = $user->createToken('UserToken', ['user'])->accessToken;
 
     $images = UploadedFile::fake()->image('test_image.jpg');
 
-   $response = $this->withHeaders([
+    $response = $this->withHeaders([
         'Authorization' => 'Bearer ' . $token,
     ])->postJson('api/news', [
         'title' => fake()->sentence(),
@@ -80,39 +80,39 @@ test('it can create news return error when user role not admin', function (){
         'user_id' => $user->id
     ]);
 
-   expect($response->status())->toBe(401);
-   expect($response->json('message'))->toBe('Unauthorized');
+    expect($response->status())->toBe(401);
+    expect($response->json('message'))->toBe('Unauthorized');
 });
 
 test('it can update news', function () {
     $user = User::factory()->create();
-    $token =  $user->createToken('UserToken', ['admin'])->accessToken;
+    $token = $user->createToken('UserToken', ['admin'])->accessToken;
 
     $news = News::factory()->create();
 
     $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token,
-        ])->putJson("api/news/{$news->slug}", [
-            'title' => fake()->sentence(),
-            'content' => fake()->paragraph(5),
-            'category_id' => fake()->numberBetween(1, 5)
-        ])->assertJsonStructure(
-            [
-                'message',
-                'error',
-                'code',
-                'results' => []
-            ]
-        );
+        'Authorization' => 'Bearer ' . $token,
+    ])->putJson("api/news/{$news->slug}", [
+        'title' => fake()->sentence(),
+        'content' => fake()->paragraph(5),
+        'category_id' => fake()->numberBetween(1, 5)
+    ])->assertJsonStructure(
+        [
+            'message',
+            'error',
+            'code',
+            'results' => []
+        ]
+    );
 
     expect($response->status())->toBe(200);
     expect($response->json('message'))->toBe('News Updated');
 });
 
 
-test('it can update news return error when user role not admin', function (){
+test('it can update news return error when user role not admin', function () {
     $user = User::factory()->create();
-    $token =  $user->createToken('UserToken', ['user'])->accessToken;
+    $token = $user->createToken('UserToken', ['user'])->accessToken;
 
     $news = News::factory()->create();
 
@@ -131,7 +131,7 @@ test('it can update news return error when user role not admin', function (){
 
 test('it can delete news', function () {
     $user = User::factory()->create();
-    $token =  $user->createToken('UserToken', ['admin'])->accessToken;
+    $token = $user->createToken('UserToken', ['admin'])->accessToken;
 
     $news = News::factory()->create();
 
@@ -143,9 +143,9 @@ test('it can delete news', function () {
 });
 
 
-test('it can delete news return error when user role not admin', function (){
+test('it can delete news return error when user role not admin', function () {
     $user = User::factory()->create();
-    $token =  $user->createToken('UserToken', ['user'])->accessToken;
+    $token = $user->createToken('UserToken', ['user'])->accessToken;
 
     $news = News::factory()->create();
 
@@ -157,9 +157,9 @@ test('it can delete news return error when user role not admin', function (){
     expect($response->json('message'))->toBe('Unauthorized');
 });
 
-test('it can get news', function (){
+test('it can get news', function () {
     $user = User::factory()->create();
-    $token =  $user->createToken('UserToken', ['admin'])->accessToken;
+    $token = $user->createToken('UserToken', ['admin'])->accessToken;
 
     $news = News::factory()->create();
 
@@ -178,15 +178,15 @@ test('it can get news', function (){
     expect($response->json('results')['title'])->toEqual($news->title);
 });
 
-test('it can comment news', function (){
+test('it can comment news', function () {
     $user = User::factory()->create();
-    $token =  $user->createToken('UserToken', ['admin'])->accessToken;
+    $token = $user->createToken('UserToken', ['admin'])->accessToken;
 
     $news = News::factory()->create();
 
     $response = $this->withHeaders([
         'Authorization' => 'Bearer ' . $token,
-    ])->postJson("api/news/{$news->slug}/comment",[
+    ])->postJson("api/news/{$news->slug}/comment", [
         'content' => fake()->paragraph(1),
         'user_name' => $user->name,
         'user_id' => $user->id
